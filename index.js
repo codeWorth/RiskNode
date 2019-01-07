@@ -46,6 +46,9 @@ function decode(data, gameData) {
 	var startingSpare = parts[5].split(",");
 	gameData.startingSpare = startingSpare.map(n => parseInt(n));
 
+	var cardOwners = parts[6].split(",");
+	gameData.cardOwnerIndex = cardOwners.map(n => parseInt(n));
+
 	gameData.startingPhase = gameData.ownerIndex.includes(-1) || (gameData.startingSpare.filter(n => n != 0).length > 0);
 }
 
@@ -55,7 +58,8 @@ function encode(gameData) {
 	str += gameData.ownerIndex.toString() + "||";
 	str += gameData.troopsOn.toString() + "||";
 	str += gameData.stage.toString() + "||";
-	str += gameData.startingSpare.toString();
+	str += gameData.startingSpare.toString() + "||";
+	str += gameData.cardOwnerIndex.toString();
 
 	return str;
 }
@@ -544,6 +548,7 @@ wss.on('connection', function (ws) {
 		highlightedCountry:-1, 
 		sourceCountry:-1, 
 		targetCountry:-1, 
+		cardOwnerIndex:[],
 		ownerIndex:[], 
 		troopsOn:[], 
 		savedTroopsOn:[],
